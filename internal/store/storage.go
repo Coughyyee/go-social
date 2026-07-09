@@ -8,7 +8,8 @@ import (
 
 // Custom errors enum
 var (
-	ErrNotFound = errors.New("resource not found")
+	ErrNotFound = errors.New("resource not found") // 404
+	ErrConflict = errors.New("conflict error")     // 409
 )
 
 type Storage struct {
