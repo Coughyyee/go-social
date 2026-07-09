@@ -3,11 +3,18 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
+)
+
+// Custom errors enum
+var (
+	ErrNotFound = errors.New("resource not found")
 )
 
 type Storage struct {
 	Posts interface {
 		Create(context.Context, *Post) error
+		GetById(context.Context, int64) (*Post, error)
 	}
 	Users interface {
 		Create(context.Context, *User) error
