@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"time"
 )
 
 // Custom errors enum
@@ -11,6 +12,8 @@ var (
 	ErrNotFound = errors.New("resource not found") // 404
 	ErrConflict = errors.New("conflict error")     // 409
 )
+
+var QueryTimeoutDuration = time.Second * 5 // timeout duration
 
 type Storage struct {
 	Posts interface {
