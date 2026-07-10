@@ -9,8 +9,8 @@ import (
 
 // Custom errors enum
 var (
-	ErrNotFound = errors.New("resource not found") // 404
-	ErrConflict = errors.New("conflict error")     // 409
+	ErrNotFound = errors.New("resource not found")                       // 404
+	ErrConflict = errors.New("conflict error - resource already exists") // 409
 )
 
 var QueryTimeoutDuration = time.Second * 5 // timeout duration
@@ -30,12 +30,17 @@ type Storage struct {
 		Create(context.Context, *Comment) error
 		GetByPostID(context.Context, int64) ([]Comment, error)
 	}
+	Followers interface {
+		Follow(context.Context, int64, int64) error
+		Unfollow(context.Context, int64, int64) error
+	}
 }
 
 func NewStorage(db *sql.DB) Storage {
 	return Storage{
-		Posts:    &PostStore{db},
-		Users:    &UserStore{db},
-		Comments: &CommentStore{db},
+		Posts:     &PostStore{db},
+		Users:     &UserStore{db},
+		Comments:  &CommentStore{db},
+		Followers: &FollowerStore{db},
 	}
 }
