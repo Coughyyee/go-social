@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	ID        string `json:"id"`
+	ID        int64  `json:"id"`
 	Username  string `json:"username"`
 	Email     string `json:"email"`
 	Password  string `json:"-"` // not returning password
@@ -22,6 +22,9 @@ func (s *UserStore) Create(ctx context.Context, user *User) error {
 	INSERT INTO users (username, password, email)
 	VALUES ($1, $2, $3) RETURNING id, created_at
 	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeoutDuration)
+	defer cancel()
 
 	// Query database with context provided and users value
 	err := s.db.QueryRowContext(
