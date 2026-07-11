@@ -166,7 +166,7 @@ func (s *PostStore) GetUserFeed(ctx context.Context, userID int64) ([]PostWithMe
 	SELECT
 		p.id, p.user_id, p.title, p.content, p.created_at, p.version, p.tags,
 		u.username,
-		COUNT(c.id) AS comments_count
+		COUNT(DISTINCT c.id) AS comments_count
 	FROM posts p
 	LEFT JOIN comments c ON c.post_id = p.id
 	LEFT JOIN users u ON p.user_id = u.id
