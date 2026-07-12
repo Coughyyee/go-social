@@ -11,6 +11,15 @@ import (
 
 const version = "0.0.1"
 
+// @title						SocialNetwork API
+// @description				API for SocialNetwork
+//
+// @BasePath					/v1
+//
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @description
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -25,7 +34,8 @@ func main() {
 			maxIdleConns: env.GetInt("DB_MAX_IDLE_CONNS", 30),
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
 		},
-		env: env.GetString("ENV", "development"),
+		env:    env.GetString("ENV", "development"),
+		apiURL: env.GetString("EXTERNAL_URL", "localhost:8080"),
 	}
 
 	db, err := db.New(
